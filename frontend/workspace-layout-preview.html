@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent 工作台布局预览</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: #102a2a;
+        background: #f7fbfa;
+      }
+
+      .topbar {
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        background: rgba(255, 255, 255, 0.92);
+        border-bottom: 1px solid #dde7e4;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .logo {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        color: white;
+        background: #0f766e;
+        font-size: 12px;
+      }
+
+      .nav {
+        display: flex;
+        gap: 4px;
+        color: #667085;
+        font-size: 14px;
+      }
+
+      .nav span {
+        padding: 6px 12px;
+        border-radius: 8px;
+      }
+
+      .nav .active {
+        color: #0f766e;
+        background: rgba(15, 118, 110, 0.1);
+      }
+
+      .workspace {
+        height: calc(100vh - 56px);
+        display: grid;
+        grid-template-columns: 34rem 16rem minmax(24rem, 1fr) 18rem;
+        overflow: hidden;
+      }
+
+      .panel {
+        min-height: 0;
+        background: white;
+        border-right: 1px solid #dde7e4;
+      }
+
+      .panel-title {
+        height: 56px;
+        padding: 10px 16px;
+        border-bottom: 1px solid #dde7e4;
+      }
+
+      .panel-title strong {
+        display: block;
+        font-size: 14px;
+      }
+
+      .panel-title span {
+        display: block;
+        margin-top: 4px;
+        color: #667085;
+        font-size: 12px;
+      }
+
+      .pdf-toolbar {
+        padding: 12px;
+        border-bottom: 1px solid #dde7e4;
+      }
+
+      .select {
+        height: 36px;
+        padding: 0 12px;
+        border: 1px solid #dde7e4;
+        border-radius: 8px;
+        color: #102a2a;
+        background: #fff;
+        font-size: 13px;
+      }
+
+      .pdf-page {
+        height: calc(100% - 105px);
+        padding: 18px;
+        background: #eef7f4;
+        overflow: hidden;
+      }
+
+      .paper {
+        width: 78%;
+        min-height: 100%;
+        margin: 0 auto;
+        padding: 28px;
+        background: white;
+        border: 1px solid #dde7e4;
+        box-shadow: 0 14px 40px rgba(16, 42, 42, 0.08);
+      }
+
+      .line {
+        height: 8px;
+        margin-bottom: 12px;
+        border-radius: 99px;
+        background: #dce8e5;
+      }
+
+      .line.title {
+        width: 65%;
+        height: 14px;
+        background: #102a2a;
+      }
+
+      .line.short {
+        width: 52%;
+      }
+
+      .conversations {
+        padding: 12px;
+      }
+
+      .button {
+        display: grid;
+        place-items: center;
+        height: 36px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        color: white;
+        background: #0f766e;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .chat-item {
+        height: 42px;
+        margin-bottom: 8px;
+        padding: 10px;
+        border: 1px solid #eef2f0;
+        border-radius: 8px;
+        color: #667085;
+        font-size: 13px;
+      }
+
+      .chat-item.active {
+        color: #0f766e;
+        background: rgba(15, 118, 110, 0.08);
+      }
+
+      .main {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        background: #f7fbfa;
+      }
+
+      .chat-header,
+      .composer {
+        height: 56px;
+        padding: 16px 20px;
+        background: white;
+        border-bottom: 1px solid #dde7e4;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .messages {
+        flex: 1;
+        padding: 24px;
+        overflow: hidden;
+      }
+
+      .message {
+        width: 72%;
+        margin-bottom: 14px;
+        padding: 12px 14px;
+        border: 1px solid #dde7e4;
+        border-radius: 12px;
+        background: white;
+        color: #102a2a;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .message.user {
+        margin-left: auto;
+        color: white;
+        background: #0f766e;
+        border-color: #0f766e;
+      }
+
+      .composer {
+        height: 76px;
+        display: flex;
+        gap: 10px;
+        border-top: 1px solid #dde7e4;
+        border-bottom: 0;
+      }
+
+      .input {
+        flex: 1;
+        height: 42px;
+        border: 1px solid #dde7e4;
+        border-radius: 10px;
+        background: white;
+      }
+
+      .send {
+        width: 64px;
+        height: 42px;
+        border-radius: 10px;
+        background: #0f766e;
+      }
+
+      .right {
+        min-height: 0;
+        background: white;
+        border-left: 1px solid #dde7e4;
+      }
+
+      .right-content {
+        padding: 14px;
+      }
+
+      .card {
+        margin-bottom: 12px;
+        padding: 14px;
+        border: 1px solid #dde7e4;
+        border-radius: 12px;
+        background: white;
+      }
+
+      .card.tint {
+        background: #f7fbfa;
+      }
+
+      .card-title {
+        margin-bottom: 10px;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .small {
+        color: #667085;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
+      .tool {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        border: 1px solid #eef2f0;
+        border-radius: 8px;
+        font-size: 12px;
+      }
+
+      .muted {
+        color: #98a2b3;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand"><span class="logo">AI</span>Agent 工作台</div>
+      <div class="nav"><span>首页</span><span class="active">工作台</span><span>知识库</span></div>
+    </header>
+    <main class="workspace">
+      <section class="panel">
+        <div class="panel-title">
+          <strong>原文 PDF</strong>
+          <span>对照原文进行知识库问答</span>
+        </div>
+        <div class="pdf-toolbar"><div class="select">数学建模结课论文.pdf</div></div>
+        <div class="pdf-page">
+          <div class="paper">
+            <div class="line title"></div>
+            <div class="line short"></div>
+            <br />
+            <div class="line"></div><div class="line"></div><div class="line"></div>
+            <div class="line short"></div>
+            <br />
+            <div class="line"></div><div class="line"></div><div class="line"></div>
+            <div class="line"></div><div class="line short"></div>
+          </div>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="conversations">
+          <div class="button">新建对话</div>
+          <div class="chat-item active">论文核心方法</div>
+          <div class="chat-item">数据来源分析</div>
+          <div class="chat-item">模型假设整理</div>
+        </div>
+      </section>
+      <section class="main">
+        <div class="chat-header">知识库智能问答</div>
+        <div class="messages">
+          <div class="message">我会结合左侧 PDF 原文和知识库检索结果回答，并在后续显示页码和引用来源。</div>
+          <div class="message user">这篇 PDF 的核心方法是什么？</div>
+          <div class="message">根据文档结构，核心方法包括问题建模、数据预处理、指标构建和结果验证。</div>
+        </div>
+        <div class="composer"><div class="input"></div><div class="send"></div></div>
+      </section>
+      <aside class="right">
+        <div class="panel-title">
+          <strong>运行上下文</strong>
+          <span>工具、步骤和引用来源</span>
+        </div>
+        <div class="right-content">
+          <div class="card tint">
+            <div class="card-title">当前工具</div>
+            <div class="small">Auto，由 Agent 判断是否调用知识库、MCP 或内置工具。</div>
+          </div>
+          <div class="card">
+            <div class="card-title">MCP 工具区</div>
+            <div class="tool"><span>文件系统</span><span class="muted">待接入</span></div>
+            <div class="tool"><span>浏览器</span><span class="muted">待接入</span></div>
+            <div class="tool"><span>数据库</span><span class="muted">待接入</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">执行步骤</div>
+            <div class="small">1. 理解问题<br />2. 检索知识库<br />3. 调用工具<br />4. 生成回答</div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </body>
+</html>

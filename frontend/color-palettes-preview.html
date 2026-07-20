@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent Workspace Color Palettes</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: #1f2329;
+        background: #f5f7fa;
+      }
+
+      .page {
+        width: min(1280px, calc(100% - 48px));
+        margin: 0 auto;
+        padding: 40px 0 56px;
+      }
+
+      .header {
+        margin-bottom: 28px;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: #646a73;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 30px;
+        line-height: 1.25;
+      }
+
+      .hint {
+        margin: 10px 0 0;
+        color: #646a73;
+        font-size: 14px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .palette {
+        --bg: #f7f9fc;
+        --primary: #3370ff;
+        --accent: #14c9c9;
+        --text: #1f2329;
+        --muted: #646a73;
+        --border: #dee0e3;
+        --card: #ffffff;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--card);
+        box-shadow: 0 14px 36px rgba(31, 35, 41, 0.07);
+      }
+
+      .palette.blue {
+        --bg: #f7f9fc;
+        --primary: #3370ff;
+        --accent: #14c9c9;
+        --text: #1f2329;
+        --muted: #646a73;
+        --border: #dee0e3;
+        --card: #ffffff;
+      }
+
+      .palette.sky {
+        --bg: #f6fafb;
+        --primary: #0ea5e9;
+        --accent: #10b981;
+        --text: #0f172a;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --card: #ffffff;
+      }
+
+      .palette.graphite {
+        --bg: #f8fafc;
+        --primary: #2563eb;
+        --accent: #6366f1;
+        --text: #111827;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --card: #ffffff;
+      }
+
+      .palette.teal {
+        --bg: #f7fbfa;
+        --primary: #0f766e;
+        --accent: #22c55e;
+        --text: #102a2a;
+        --muted: #667085;
+        --border: #dde7e4;
+        --card: #ffffff;
+      }
+
+      .palette-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 18px 14px;
+      }
+
+      .palette-title {
+        margin: 0;
+        color: var(--text);
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .palette-tag {
+        padding: 5px 9px;
+        border-radius: 8px;
+        color: var(--primary);
+        background: color-mix(in srgb, var(--primary) 10%, white);
+        border: 1px solid color-mix(in srgb, var(--primary) 18%, white);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        padding: 0 18px 18px;
+      }
+
+      .swatch {
+        min-height: 50px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .preview {
+        margin: 0 18px 18px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--bg);
+      }
+
+      .preview-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 42px;
+        padding: 0 12px;
+        background: var(--card);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .logo {
+        display: grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 7px;
+        color: white;
+        background: var(--primary);
+        font-size: 11px;
+      }
+
+      .nav-pills {
+        display: flex;
+        gap: 6px;
+      }
+
+      .pill {
+        height: 22px;
+        padding: 0 9px;
+        border-radius: 7px;
+        color: var(--muted);
+        background: transparent;
+        border: 0;
+        font-size: 11px;
+      }
+
+      .pill.active {
+        color: var(--primary);
+        background: color-mix(in srgb, var(--primary) 10%, white);
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: 118px 1fr 120px;
+        min-height: 230px;
+      }
+
+      .side,
+      .right {
+        padding: 12px;
+        border-right: 1px solid var(--border);
+        background: color-mix(in srgb, var(--card) 82%, var(--bg));
+      }
+
+      .right {
+        border-right: 0;
+        border-left: 1px solid var(--border);
+      }
+
+      .side-title,
+      .right-title {
+        margin-bottom: 10px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .item {
+        height: 26px;
+        margin-bottom: 7px;
+        border-radius: 7px;
+        background: var(--card);
+        border: 1px solid var(--border);
+      }
+
+      .item.active {
+        background: color-mix(in srgb, var(--primary) 12%, white);
+        border-color: color-mix(in srgb, var(--primary) 24%, white);
+      }
+
+      .chat {
+        padding: 14px;
+      }
+
+      .message {
+        width: 76%;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        color: var(--text);
+        background: var(--card);
+        border: 1px solid var(--border);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .message.user {
+        margin-left: auto;
+        color: white;
+        background: var(--primary);
+        border-color: var(--primary);
+      }
+
+      .composer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 18px;
+        padding: 9px;
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        background: var(--card);
+      }
+
+      .input-line {
+        flex: 1;
+        height: 9px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--muted) 18%, white);
+      }
+
+      .send {
+        width: 42px;
+        height: 24px;
+        border-radius: 7px;
+        background: var(--accent);
+      }
+
+      .tool {
+        height: 28px;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        background: var(--card);
+        border: 1px solid var(--border);
+      }
+
+      .tool.hot {
+        background: color-mix(in srgb, var(--accent) 12%, white);
+        border-color: color-mix(in srgb, var(--accent) 22%, white);
+      }
+
+      .codes {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px 14px;
+        padding: 0 18px 18px;
+        color: var(--muted);
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 11px;
+      }
+
+      @media (max-width: 980px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="header">
+        <p class="eyebrow">Agent 工作台配色预览</p>
+        <h1>选择一个简洁、清爽、偏飞书风格的页面基调</h1>
+        <p class="hint">每张卡片展示色板和一个工作台缩略图，便于判断真实界面效果。</p>
+      </header>
+
+      <section class="grid">
+        <article class="palette blue">
+          <div class="palette-meta">
+            <h2 class="palette-title">1. 飞书蓝白</h2>
+            <span class="palette-tag">推荐</span>
+          </div>
+          <div class="swatches">
+            <div class="swatch" style="background: #f7f9fc"></div>
+            <div class="swatch" style="background: #3370ff"></div>
+            <div class="swatch" style="background: #14c9c9"></div>
+            <div class="swatch" style="background: #1f2329"></div>
+            <div class="swatch" style="background: #646a73"></div>
+            <div class="swatch" style="background: #dee0e3"></div>
+            <div class="swatch" style="background: #ffffff"></div>
+          </div>
+          <div class="preview">
+            <div class="preview-topbar">
+              <div class="brand"><span class="logo">AI</span>Agent Workspace</div>
+              <div class="nav-pills"><span class="pill active">工作台</span><span class="pill">知识库</span></div>
+            </div>
+            <div class="workspace">
+              <div class="side"><div class="side-title">会话</div><div class="item active"></div><div class="item"></div><div class="item"></div></div>
+              <div class="chat"><div class="message">基于知识库回答，并显示引用来源。</div><div class="message user">帮我总结这篇论文。</div><div class="composer"><div class="input-line"></div><div class="send"></div></div></div>
+              <div class="right"><div class="right-title">MCP 工具</div><div class="tool hot"></div><div class="tool"></div><div class="tool"></div></div>
+            </div>
+          </div>
+          <div class="codes">
+            <span>背景 #F7F9FC</span><span>主色 #3370FF</span><span>强调 #14C9C9</span><span>文字 #1F2329</span>
+          </div>
+        </article>
+
+        <article class="palette sky">
+          <div class="palette-meta">
+            <h2 class="palette-title">2. 青蓝轻科技</h2>
+            <span class="palette-tag">AI 感</span>
+          </div>
+          <div class="swatches">
+            <div class="swatch" style="background: #f6fafb"></div>
+            <div class="swatch" style="background: #0ea5e9"></div>
+            <div class="swatch" style="background: #10b981"></div>
+            <div class="swatch" style="background: #0f172a"></div>
+            <div class="swatch" style="background: #64748b"></div>
+            <div class="swatch" style="background: #e2e8f0"></div>
+            <div class="swatch" style="background: #ffffff"></div>
+          </div>
+          <div class="preview">
+            <div class="preview-topbar">
+              <div class="brand"><span class="logo">AI</span>Agent Workspace</div>
+              <div class="nav-pills"><span class="pill active">工作台</span><span class="pill">知识库</span></div>
+            </div>
+            <div class="workspace">
+              <div class="side"><div class="side-title">会话</div><div class="item active"></div><div class="item"></div><div class="item"></div></div>
+              <div class="chat"><div class="message">适合更强调 AI、检索、自动化。</div><div class="message user">调用 MCP 工具分析数据。</div><div class="composer"><div class="input-line"></div><div class="send"></div></div></div>
+              <div class="right"><div class="right-title">MCP 工具</div><div class="tool hot"></div><div class="tool"></div><div class="tool"></div></div>
+            </div>
+          </div>
+          <div class="codes">
+            <span>背景 #F6FAFB</span><span>主色 #0EA5E9</span><span>强调 #10B981</span><span>文字 #0F172A</span>
+          </div>
+        </article>
+
+        <article class="palette graphite">
+          <div class="palette-meta">
+            <h2 class="palette-title">3. 石墨灰 + 蓝</h2>
+            <span class="palette-tag">SaaS</span>
+          </div>
+          <div class="swatches">
+            <div class="swatch" style="background: #f8fafc"></div>
+            <div class="swatch" style="background: #2563eb"></div>
+            <div class="swatch" style="background: #6366f1"></div>
+            <div class="swatch" style="background: #111827"></div>
+            <div class="swatch" style="background: #6b7280"></div>
+            <div class="swatch" style="background: #e5e7eb"></div>
+            <div class="swatch" style="background: #ffffff"></div>
+          </div>
+          <div class="preview">
+            <div class="preview-topbar">
+              <div class="brand"><span class="logo">AI</span>Agent Workspace</div>
+              <div class="nav-pills"><span class="pill active">工作台</span><span class="pill">知识库</span></div>
+            </div>
+            <div class="workspace">
+              <div class="side"><div class="side-title">会话</div><div class="item active"></div><div class="item"></div><div class="item"></div></div>
+              <div class="chat"><div class="message">更像成熟 SaaS 控制台，稳定克制。</div><div class="message user">生成执行计划。</div><div class="composer"><div class="input-line"></div><div class="send"></div></div></div>
+              <div class="right"><div class="right-title">MCP 工具</div><div class="tool hot"></div><div class="tool"></div><div class="tool"></div></div>
+            </div>
+          </div>
+          <div class="codes">
+            <span>背景 #F8FAFC</span><span>主色 #2563EB</span><span>强调 #6366F1</span><span>文字 #111827</span>
+          </div>
+        </article>
+
+        <article class="palette teal">
+          <div class="palette-meta">
+            <h2 class="palette-title">4. 淡青绿色</h2>
+            <span class="palette-tag">阅读友好</span>
+          </div>
+          <div class="swatches">
+            <div class="swatch" style="background: #f7fbfa"></div>
+            <div class="swatch" style="background: #0f766e"></div>
+            <div class="swatch" style="background: #22c55e"></div>
+            <div class="swatch" style="background: #102a2a"></div>
+            <div class="swatch" style="background: #667085"></div>
+            <div class="swatch" style="background: #dde7e4"></div>
+            <div class="swatch" style="background: #ffffff"></div>
+          </div>
+          <div class="preview">
+            <div class="preview-topbar">
+              <div class="brand"><span class="logo">AI</span>Agent Workspace</div>
+              <div class="nav-pills"><span class="pill active">工作台</span><span class="pill">知识库</span></div>
+            </div>
+            <div class="workspace">
+              <div class="side"><div class="side-title">会话</div><div class="item active"></div><div class="item"></div><div class="item"></div></div>
+              <div class="chat"><div class="message">更温和，适合文档阅读和知识沉淀。</div><div class="message user">整理会议纪要。</div><div class="composer"><div class="input-line"></div><div class="send"></div></div></div>
+              <div class="right"><div class="right-title">MCP 工具</div><div class="tool hot"></div><div class="tool"></div><div class="tool"></div></div>
+            </div>
+          </div>
+          <div class="codes">
+            <span>背景 #F7FBFA</span><span>主色 #0F766E</span><span>强调 #22C55E</span><span>文字 #102A2A</span>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
