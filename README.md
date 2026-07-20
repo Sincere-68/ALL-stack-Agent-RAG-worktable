@@ -74,25 +74,7 @@ conversations.db                   # SQLite 会话数据库
 
 复制 `.env.example` 为 `.env`，并填写自己的 API key：
 
-```powershell
-copy .env.example .env
-```
 
-主要配置项：
-
-```env
-LLM_PROVIDER=openai
-LLM_MODEL=deepseek-ai/DeepSeek-V4-Flash
-LLM_BASE_URL=https://api.siliconflow.cn/v1
-OPENAI_API_KEY=sk-xxx
-
-EMBEDDING_MODEL=Qwen/Qwen3-Embedding-8B
-EMBEDDING_COLLECTION_NAME=knowledge_base_qwen3_embedding_8b
-
-OCR_MODEL=deepseek-ai/DeepSeek-OCR
-```
-
-注意：切换 `EMBEDDING_MODEL` 后，不要复用旧的 ChromaDB collection。建议同步修改 `EMBEDDING_COLLECTION_NAME`，或删除并重建 `chroma_db/`，避免不同向量维度混用导致入库失败。
 
 ## 运行方式
 
